@@ -14,6 +14,16 @@ const MOOD_EMOJIS = {
   calm: "😌",
 };
 
+// 기분 한국어 매핑
+const MOOD_KR = {
+  happy: "행복",
+  sad: "슬픔",
+  angry: "화남",
+  excited: "신남",
+  confused: "혼란",
+  calm: "평온",
+};
+
 // ============================================
 // Part 1: DOM 요소 선택하기
 // ============================================
@@ -30,7 +40,8 @@ const diaryList = document.querySelector("#diary-list"); // 힌트: '#diary-list
 const emptyMessage = document.querySelector("#empty-message"); // 힌트: '#empty-message'
 const statsContainer = document.querySelector("#stats"); // 힌트: '#stats'
 const searchInput = document.querySelector("#search-input"); // 도전 과제 1: 제목/내용에서 검색
-const listTitle = document.querySelector("section:nth-of-type(2) h2"); // 도전 과제 2: 일기 목록 섹션의 제목
+const filterMoodSelect = document.querySelector("#filter-mood"); // 도전 과제 2: 특정 감정 필터링
+const listTitle = document.querySelector("section:nth-of-type(2) h2"); // 도전 과제 3: 일기 목록 섹션의 제목
 
 // ============================================
 // Part 2: 데이터 구조 만들기
@@ -357,15 +368,6 @@ function renderStats() {
   statsContainer.append(statsTotal);
 
   // 4. stats.moods 객체를 순회하면서 (for...in 또는 Object.entries) 각 기분별 개수를 요소로 만들어 추가하세요
-  // 기분 한국어 매핑
-  const MOOD_KR = {
-    happy: "행복",
-    sad: "슬픔",
-    angry: "화남",
-    excited: "신남",
-    confused: "혼란",
-    calm: "평온",
-  };
 
   // Object.entries()로 { mood: count } 객체를 [mood, count] 형태의 배열로 반환
   // 반환값이 배열이므로 배열 메소드를 체이닝 가능 → forEach로 순회
@@ -407,6 +409,10 @@ searchInput.addEventListener("input", () => {
 });
 
 // 2. renderAllEntries를 수정해서 특정 mood만 필터링 가능하게 만들기
+filterMoodSelect.addEventListener("change", () => {
+  renderAllEntries(diary, filterMoodSelect.value || null);
+});
+
 // 3. 일기 개수를 헤더 제목 옆에 실시간으로 표시하기
 function renderAllEntries(entries = diary, mood) {
   diaryList.innerHTML = "";

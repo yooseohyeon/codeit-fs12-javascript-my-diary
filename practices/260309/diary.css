@@ -43,11 +43,6 @@ section h2 {
   color: #555;
 }
 
-/* 검색 */
-#search-input {
-  width: 100%;
-}
-
 /* 폼 */
 form {
   display: flex;
@@ -95,6 +90,16 @@ button {
 }
 
 /* 일기 항목 */
+.diary-filters-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#search-input {
+  width: 100%;
+}
+
 .entry {
   border: 1px solid #eee;
   border-radius: 10px;
