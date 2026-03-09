@@ -29,6 +29,8 @@ const submitBtn = document.querySelector("#submit-btn"); // 힌트: '#submit-btn
 const diaryList = document.querySelector("#diary-list"); // 힌트: '#diary-list'
 const emptyMessage = document.querySelector("#empty-message"); // 힌트: '#empty-message'
 const statsContainer = document.querySelector("#stats"); // 힌트: '#stats'
+const searchInput = document.querySelector("#search-input"); // 도전 과제 1: 제목/내용에서 검색
+const listTitle = document.querySelector("section:nth-of-type(2) h2"); // 도전 과제 2: 일기 목록 섹션의 제목
 
 // ============================================
 // Part 2: 데이터 구조 만들기
@@ -381,30 +383,32 @@ function renderStats() {
 // ============================================
 // 도전 과제 (다 풀었다면 시도해보세요!)
 // ============================================
-//
-// 1. getEntriesByKeyword(keyword)
-//    - 제목이나 내용에 keyword가 포함된 일기를 찾아 반환
-//    - 힌트: filter() + includes()
 
-// 배열 안에 객체가 있으므로 먼저 인덱스로 요소를 꺼내고 해당 객체의 속성(title, content)에 접근해야 함 (diary[0].title)
-// 배열의 각 요소를 순회 + 키워드가 포함된 요소만 얻어야 하므로 조건을 만족하는 요소만 반환하는 filter() 사용
-
+// 1. getEntriesByKeyword(keyword): 제목이나 내용에 keyword가 포함된 일기를 찾아 반환
 function getEntriesByKeyword(keyword) {
-  return diary.filter(
+  if (!keyword) return;
+
+  const filteredEntries = diary.filter(
     (entry) => entry.title.includes(keyword) || entry.content.includes(keyword),
   );
+
+  renderAllEntries(filteredEntries);
 }
 
+// input 입력 이벤트
+searchInput.addEventListener("input", () => {
+  const keyword = searchInput.value.trim();
+
+  if (!keyword) {
+    renderAllEntries(); // 검색어 없으면 전체 일기 표시
+  } else {
+    getEntriesByKeyword(keyword); // 검색어 있으면 필터링
+  }
+});
+
 // 2. renderAllEntries를 수정해서 특정 mood만 필터링 가능하게 만들기
-//    - 예: renderAllEntries('happy') → 행복한 일기만 표시
-//    - 힌트: 파라미터로 mood를 받아서, 있으면 filter 적용
-
 // 3. 일기 개수를 헤더 제목 옆에 실시간으로 표시하기
-//    - 예: "일기 목록 (3)"
-//    - 힌트: renderAllEntries 안에서 h2의 textContent 수정
-const listTitle = document.querySelector("section:nth-of-type(2) h2");
-
-function renderAllEntries(mood) {
+function renderAllEntries(entries = diary, mood) {
   diaryList.innerHTML = "";
 
   emptyMessage.style.display = diary.length > 0 ? "none" : "display";
@@ -414,9 +418,11 @@ function renderAllEntries(mood) {
     diary.length > 0 ? `일기 목록 (${diary.length})` : `일기 목록`;
 
   // 도전 과제 2) mood가 있으면 해당 mood만 필터링하고, 없으면 전체 diary 사용
-  const entries = mood ? diary.filter((entry) => entry.mood === mood) : diary;
+  const filtered = mood
+    ? entries.filter((entry) => entry.mood === mood)
+    : entries;
 
-  entries.forEach((entry) => {
+  filtered.forEach((entry) => {
     const entryElement = renderEntry(entry);
     diaryList.append(entryElement);
   });
