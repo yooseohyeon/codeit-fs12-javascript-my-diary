@@ -44,7 +44,7 @@ const statsContainer = document.querySelector("#stats"); // 힌트: '#stats'
 // }
 
 // TODO: 빈 일기장 배열을 선언하세요
-let diary;
+let diary = [];
 
 // 일기 ID를 자동으로 증가시키기 위한 변수 (제공됨)
 let nextId = 1;
@@ -59,16 +59,22 @@ let editingId = null;
 
 function addEntry(title, content, mood) {
   // TODO: 새 일기 객체를 만들어서 diary 배열에 추가하세요
-  //
-  // 단계:
+
   // 1. 새 객체를 만드세요 (id, date, title, content, mood 속성)
-  //    - id는 nextId를 사용
-  //    - date는 new Date().toISOString().slice(0, 10)
-  //    - title, content, mood는 파라미터 값 사용
+  diaryItem = {
+    id: nextId,
+    date: new Date().toISOString().slice(0, 10),
+    title,
+    content,
+    mood,
+  };
+
   // 2. 배열에 추가하세요
+  diary.push(diaryItem);
   // 3. nextId를 1 증가시키세요
-  //
-  // 힌트: 배열 끝에 요소를 추가하는 메서드는?
+  nextId++;
+
+  return diary;
 }
 
 // ============================================
