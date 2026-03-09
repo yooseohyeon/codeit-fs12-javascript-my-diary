@@ -300,19 +300,30 @@ if (diaryForm) {
 // 8-1. 통계 데이터 계산
 function getDiaryStats() {
   // TODO: 일기장의 통계 객체를 만들어 반환하세요
-  //
+
   // 반환 형태:
   // {
   //   total: 전체 일기 수,
   //   moods: { happy: 1, sad: 2, ... }  ← 기분별 개수
   // }
-  //
-  // 단계:
+
   // 1. total은 diary 배열의 길이
+  const total = diary.length;
+
   // 2. moods는 빈 객체 {}로 시작
+  const moods = {};
+
   // 3. diary를 순회하면서 각 항목의 mood를 키로 사용해 개수를 세세요
-  //
   // 힌트: if (moods[mood]) { moods[mood]++ } else { moods[mood] = 1 }
+  diary.forEach(({ mood }) => {
+    if (moods[mood]) {
+      moods[mood]++;
+    } else {
+      moods[mood] = 1;
+    }
+  });
+
+  return { total, moods };
 }
 
 // 8-2. 통계를 화면에 그리기
@@ -322,18 +333,44 @@ function renderStats() {
   // 표시 예:
   //   전체 일기: 5개
   //   😊 행복: 2개  😢 슬픔: 1개  🎉 신남: 2개
-  //
-  // 단계:
-  // 1. const stats = getDiaryStats()로 통계를 가져오세요
-  //    (stats가 없으면 return)
+
+  // 1. const stats = getDiaryStats()로 통계를 가져오세요 (stats가 없으면 return)
+  const stats = getDiaryStats();
+  if (!stats) return;
+
   // 2. statsContainer.innerHTML = ''으로 비우세요
+  statsContainer.innerHTML = "";
+  statsContainer.classList.add("stats-grid");
+
   // 3. '전체 일기: N개' 요소를 만들어 추가하세요
-  // 4. stats.moods 객체를 순회하면서 (for...in 또는 Object.entries)
-  //    각 기분별 개수를 요소로 만들어 추가하세요
-  //    (MOOD_EMOJIS[mood]로 이모지를 가져올 수 있습니다)
-  //
-  // 힌트: createElement, textContent, appendChild
-  // CSS 클래스: 'stats-grid' (컨테이너), 'stat-item' (각 항목), 'stat-total' (전체 개수)
+  const statsTotal = document.createElement("p");
+  statsTotal.textContent = `전체 일기: ${stats.total}개`;
+  statsTotal.classList.add("stat-total");
+
+  statsContainer.append(statsTotal);
+
+  // 4. stats.moods 객체를 순회하면서 (for...in 또는 Object.entries) 각 기분별 개수를 요소로 만들어 추가하세요
+  // 기분 한국어 매핑
+  const MOOD_KR = {
+    happy: "행복",
+    sad: "슬픔",
+    angry: "화남",
+    excited: "신남",
+    confused: "혼란",
+    calm: "평온",
+  };
+
+  // Object.entries()로 { mood: count } 객체를 [mood, count] 형태의 배열로 반환
+  // 반환값이 배열이므로 배열 메소드를 체이닝 가능 → forEach로 순회
+  // 구조 분해 할당을 활용해 mood와 count 값을 바로 사용
+  Object.entries(stats.moods).forEach(([mood, count]) => {
+    const statsItem = document.createElement("span");
+    statsItem.classList.add("stat-item");
+
+    statsItem.textContent = `${MOOD_EMOJIS[mood]} ${MOOD_KR[mood]}: ${count}개`;
+
+    statsContainer.append(statsItem);
+  });
 }
 
 // ============================================
