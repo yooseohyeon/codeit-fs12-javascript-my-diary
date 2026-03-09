@@ -393,24 +393,28 @@ function getEntriesByKeyword(keyword) {
 // 2. renderAllEntries를 수정해서 특정 mood만 필터링 가능하게 만들기
 //    - 예: renderAllEntries('happy') → 행복한 일기만 표시
 //    - 힌트: 파라미터로 mood를 받아서, 있으면 filter 적용
+
+// 3. 일기 개수를 헤더 제목 옆에 실시간으로 표시하기
+//    - 예: "일기 목록 (3)"
+//    - 힌트: renderAllEntries 안에서 h2의 textContent 수정
+const listTitle = document.querySelector("section:nth-of-type(2) h2");
+
 function renderAllEntries(mood) {
   diaryList.innerHTML = "";
 
-  emptyMessage.style.display = diary.length === 0 ? "block" : "none";
+  emptyMessage.style.display = diary.length > 0 ? "none" : "display";
 
-  // mood가 있으면 해당 mood만 필터링하고, 없으면 전체 diary 사용
+  // 도전 과제 3) 일기 개수를 헤더 제목 옆에 실시간으로 표시하기
+  listTitle.textContent =
+    diary.length > 0 ? `일기 목록 (${diary.length})` : `일기 목록`;
+
+  // 도전 과제 2) mood가 있으면 해당 mood만 필터링하고, 없으면 전체 diary 사용
   const entries = mood ? diary.filter((entry) => entry.mood === mood) : diary;
 
-  // entries 배열을 순회하며 DOM 요소를 생성하고 diaryList에 append
   entries.forEach((entry) => {
     const entryElement = renderEntry(entry);
     diaryList.append(entryElement);
   });
 
-  // 통계도 같이 갱신
   renderStats();
 }
-
-// 3. 일기 개수를 헤더 제목 옆에 실시간으로 표시하기
-//    - 예: "일기 목록 (3)"
-//    - 힌트: renderAllEntries 안에서 h2의 textContent 수정
