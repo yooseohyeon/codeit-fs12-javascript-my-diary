@@ -21,14 +21,14 @@ const MOOD_EMOJIS = {
 // 괄호 안에 CSS 선택자(id는 '#이름', class는 '.이름')를 넣으면 됩니다.
 
 // TODO: 각 변수에 알맞은 요소를 선택하세요
-const diaryForm = null; // 힌트: '#diary-form'
-const titleInput = null; // 힌트: '#title-input'
-const contentInput = null; // 힌트: '#content-input'
-const moodSelect = null; // 힌트: '#mood-select'
-const submitBtn = null; // 힌트: '#submit-btn'
-const diaryList = null; // 힌트: '#diary-list'
-const emptyMessage = null; // 힌트: '#empty-message'
-const statsContainer = null; // 힌트: '#stats'
+const diaryForm = document.querySelector("#diary-form"); // 힌트: '#diary-form'
+const titleInput = document.querySelector("#title-input"); // 힌트: '#title-input'
+const contentInput = document.querySelector("#content-input"); // 힌트: '#content-input'
+const moodSelect = document.querySelector("#mood-select"); // 힌트: '#mood-select'
+const submitBtn = document.querySelector("#submit-btn"); // 힌트: '#submit-btn'
+const diaryList = document.querySelector("#diary-list"); // 힌트: '#diary-list'
+const emptyMessage = document.querySelector("#empty-message"); // 힌트: '#empty-message'
+const statsContainer = document.querySelector("#stats"); // 힌트: '#stats'
 
 // ============================================
 // Part 2: 데이터 구조 만들기
