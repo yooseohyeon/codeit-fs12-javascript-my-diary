@@ -380,11 +380,20 @@ function renderStats() {
 // 1. getEntriesByKeyword(keyword)
 //    - 제목이나 내용에 keyword가 포함된 일기를 찾아 반환
 //    - 힌트: filter() + includes()
-//
+
+// 배열 안에 객체가 있으므로 먼저 인덱스로 요소를 꺼내고 해당 객체의 속성(title, content)에 접근해야 함 (diary[0].title)
+// 배열의 각 요소를 순회 + 키워드가 포함된 요소만 얻어야 하므로 조건을 만족하는 요소만 반환하는 filter() 사용
+
+function getEntriesByKeyword(keyword) {
+  return diary.filter(
+    (entry) => entry.title.includes(keyword) || entry.content.includes(keyword),
+  );
+}
+
 // 2. renderAllEntries를 수정해서 특정 mood만 필터링 가능하게 만들기
 //    - 예: renderAllEntries('happy') → 행복한 일기만 표시
 //    - 힌트: 파라미터로 mood를 받아서, 있으면 filter 적용
-//
+
 // 3. 일기 개수를 헤더 제목 옆에 실시간으로 표시하기
 //    - 예: "일기 목록 (3)"
 //    - 힌트: renderAllEntries 안에서 h2의 textContent 수정
