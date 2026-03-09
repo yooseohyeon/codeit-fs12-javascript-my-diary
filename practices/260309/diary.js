@@ -185,31 +185,36 @@ function renderAllEntries() {
 // 5-1. 배열에서 일기 데이터 수정
 function updateEntry(id, updates) {
   // TODO: diary 배열에서 id가 일치하는 일기를 찾아서 수정하세요
-  //
-  // 단계:
+
   // 1. diary 배열에서 id가 일치하는 항목을 찾으세요
+  const entry = diary.find((entry) => entry.id === id);
+
   // 2. 찾은 항목이 있으면, updates 객체의 속성들을 덮어쓰세요
-  // 예: updateEntry(1, { title: "수정!", mood: "sad" })
-  //     → id가 1인 일기의 title과 mood만 변경
-  //
-  // 힌트: find()로 찾고, Object.assign()으로 속성 복사
+  if (entry) Object.assign(entry, updates);
+
+  return entry;
 }
 
 // 5-2. 수정할 일기를 폼에 채우기
 function fillFormForEdit(id) {
   // TODO: id로 일기를 찾아서 폼 입력칸에 기존 값을 채우세요
-  //
-  // 단계:
+
   // 1. diary 배열에서 id가 일치하는 항목을 찾으세요
+  const entry = diary.find((entry) => entry.id === id);
+
   // 2. 찾은 항목이 없으면 return
-  // 3. 폼에 값을 채우세요:
-  //    - titleInput.value = 찾은 일기의 title
-  //    - contentInput.value = 찾은 일기의 content
-  //    - moodSelect.value = 찾은 일기의 mood
+  if (!entry) return;
+
+  // 3. 폼에 값을 채우세요
+  titleInput.value = entry.title;
+  contentInput.value = entry.content;
+  moodSelect.value = entry.mood;
+
   // 4. editingId = id (수정 모드로 전환)
+  editingId = id;
+
   // 5. submitBtn.textContent = '수정 완료' (버튼 텍스트 변경)
-  //
-  // 힌트: DOM 요소의 .value 속성에 값을 넣으면 입력칸에 표시됩니다
+  submitBtn.textContent = "수정 완료";
 }
 
 // ============================================
