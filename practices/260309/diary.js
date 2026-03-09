@@ -223,13 +223,15 @@ function fillFormForEdit(id) {
 
 function deleteEntry(id) {
   // TODO: diary 배열에서 id가 일치하는 일기를 삭제하고 화면을 갱신하세요
-  //
-  // 단계:
+
   // 1. 삭제할 일기의 '인덱스'를 찾으세요
+  const deleteIndex = diary.findIndex((entry) => entry.id === id);
+
   // 2. 인덱스가 유효하면 (-1이 아니면) 배열에서 해당 요소를 제거하세요
+  if (deleteIndex !== -1) diary.splice(deleteIndex, 1);
+
   // 3. renderAllEntries()를 호출해서 화면을 갱신하세요
-  //
-  // 힌트: findIndex()로 인덱스 찾기, splice()로 제거
+  renderAllEntries();
 }
 
 // ============================================
