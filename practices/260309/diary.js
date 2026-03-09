@@ -336,10 +336,15 @@ function renderStats() {
 
   // 1. const stats = getDiaryStats()로 통계를 가져오세요 (stats가 없으면 return)
   const stats = getDiaryStats();
+
   if (!stats) return;
 
   // 2. statsContainer.innerHTML = ''으로 비우세요
   statsContainer.innerHTML = "";
+
+  // 일기가 0개이면 "전체 일기 (0개)"라고 표시되지 않도록 종료
+  if (stats.total === 0) return;
+
   statsContainer.classList.add("stats-grid");
 
   // 3. '전체 일기: N개' 요소를 만들어 추가하세요
