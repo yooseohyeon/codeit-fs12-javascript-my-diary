@@ -241,30 +241,47 @@ function deleteEntry(id) {
 // 7-1. 폼 초기화
 function clearForm() {
   // TODO: 폼의 모든 입력값을 초기화하세요
-  //
-  // 단계:
+
   // 1. titleInput.value = '' (빈 문자열)
+  titleInput.value = "";
+
   // 2. contentInput.value = '' (빈 문자열)
+  contentInput.value = "";
+
   // 3. moodSelect.selectedIndex = 0 (첫 번째 옵션으로)
+  moodSelect.selectedIndex = 0;
+
   // 4. editingId = null (추가 모드로 복귀)
+  editingId = null;
+
   // 5. submitBtn.textContent = '일기 추가' (버튼 텍스트 복원)
+  submitBtn.textContent = "일기 추가";
 }
 
 // 7-2. 폼 제출 처리
 function handleSubmit(e) {
   // TODO: 폼이 제출되면 일기를 추가하거나 수정하세요
-  //
-  // 단계:
+
   // 1. e.preventDefault()로 페이지 새로고침 방지
-  // 2. 입력값 가져오기:
-  //    const title = titleInput.value;
-  //    const content = contentInput.value;
-  //    const mood = moodSelect.value;
-  // 3. 수정 모드인지 확인:
-  //    if (editingId) → updateEntry(editingId, { title, content, mood })
-  //    else → addEntry(title, content, mood)
+  e.preventDefault();
+
+  // 2. 입력값 가져오기
+  const title = titleInput.value;
+  const content = contentInput.value;
+  const mood = moodSelect.value;
+
+  // 3. 수정 모드인지 확인
+  if (editingId) {
+    updateEntry(editingId, { title, content, mood });
+  } else {
+    addEntry(title, content, mood);
+  }
+
   // 4. clearForm()으로 폼 초기화
+  clearForm();
+
   // 5. renderAllEntries()로 화면 갱신
+  renderAllEntries();
 }
 
 // 7-3. 이벤트 리스너 등록
@@ -273,6 +290,7 @@ function handleSubmit(e) {
 // (Part 1에서 diaryForm을 올바르게 선택해야 동작합니다!)
 if (diaryForm) {
   // TODO: 여기에 addEventListener를 작성하세요
+  diaryForm.addEventListener("submit", handleSubmit);
 }
 
 // ============================================
