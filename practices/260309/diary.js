@@ -98,41 +98,84 @@ function renderEntry(entry) {
   //     <button class="delete-btn">삭제</button>
   //   </div>
   // </div>
-  //
-  // 단계:
+
   // 1. document.createElement('div')로 컨테이너를 만들고 className = 'entry' 설정
+  const entryContainer = document.createElement("div");
+  entryContainer.classList.add("entry");
+
   // 2. 헤더 영역을 만들고 (className = 'entry-header')
-  //    - 기분 이모지 span (MOOD_EMOJIS[entry.mood] 활용)
-  //    - 제목 h3 (entry.title을 textContent로)
-  //    - 날짜 span (entry.date를 textContent로)
-  //    을 각각 만들어서 헤더에 appendChild
+  // 기분 이모지 span, 제목 h3, 날짜 span을 각각 만들어서 헤더에 appendChild
+  const entryHeader = document.createElement("div");
+  entryHeader.classList.add("entry-header");
+
+  const entryMood = document.createElement("span");
+  entryMood.classList.add("entry-mood");
+  entryMood.textContent = MOOD_EMOJIS[entry.mood];
+
+  const entryTitle = document.createElement("h3");
+  entryTitle.classList.add("entry-title");
+  entryTitle.textContent = entry.title;
+
+  const entryDate = document.createElement("h3");
+  entryDate.classList.add("entry-date");
+  entryDate.textContent = entry.date;
+
+  entryHeader.append(entryMood, entryTitle, entryDate);
+
   // 3. 내용 p 요소를 만들기 (entry.content를 textContent로)
+  const entryContent = document.createElement("p");
+  entryContent.classList.add("entry-content");
+  entryContent.textContent = entry.content;
+
   // 4. 버튼 영역을 만들고 (className = 'entry-actions')
-  //    - 수정 버튼: className = 'edit-btn', textContent = '수정'
-  //    - 삭제 버튼: className = 'delete-btn', textContent = '삭제'
-  // 5. 수정 버튼에 클릭 이벤트 추가:
-  //    editBtn.addEventListener('click', function() { fillFormForEdit(entry.id); });
-  // 6. 삭제 버튼에 클릭 이벤트 추가:
-  //    deleteBtn.addEventListener('click', function() { deleteEntry(entry.id); });
+  const entryActions = document.createElement("div");
+  entryActions.classList.add("entry-actions");
+
+  // - 수정 버튼: className = 'edit-btn', textContent = '수정'
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.classList.add("edit-btn");
+  editBtn.textContent = "수정";
+
+  // - 삭제 버튼: className = 'delete-btn', textContent = '삭제'
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.classList.add("delete-btn");
+  deleteBtn.textContent = "삭제 ";
+
+  // 5. 수정 버튼에 클릭 이벤트 추가
+  editBtn.addEventListener("click", () => fillFormForEdit(entry.id));
+
+  // 6. 삭제 버튼에 클릭 이벤트 추가
+  deleteBtn.addEventListener("click", () => deleteEntry(entry.id));
+
+  // 버튼 추가
+  entryActions.append(editBtn, deleteBtn);
+
   // 7. 컨테이너에 헤더, 내용, 버튼 영역을 순서대로 appendChild
-  // 8. 컨테이너를 return
-  //
-  // 힌트: createElement, textContent, className, appendChild, addEventListener
+  entryContainer.append(entryHeader, entryContent, entryActions);
+
+  return entryContainer;
 }
 
 // 4-2. 전체 일기 목록 그리기
 function renderAllEntries() {
   // TODO: diary 배열의 모든 일기를 화면에 그리세요
-  //
-  // 단계:
+
   // 1. diaryList의 내용을 비우세요 (innerHTML = '')
-  // 2. diary 배열이 비어있으면 emptyMessage를 보이게,
-  //    비어있지 않으면 숨기세요
-  //    (요소.style.display = 'block' 또는 'none')
-  // 3. diary 배열을 순회하면서 renderEntry(항목)를 호출하고
-  //    반환된 요소를 diaryList에 appendChild하세요
-  //
-  // 힌트: forEach로 순회, appendChild로 추가
+  diaryList.innerHTML = "";
+
+  // 2. diary 배열이 비어있으면 emptyMessage를 보이게, 비어있지 않으면 숨기세요
+  emptyMessage.style.display = diary.length === 0 ? "block" : "none";
+
+  // 3. diary 배열을 순회하면서 renderEntry(항목)를 호출하고 반환된 요소를 diaryList에 appendChild하세요
+  diary.forEach((entry) => {
+    const entryElement = renderEntry(entry);
+    diaryList.append(entryElement);
+  });
+
+  // 통계도 같이 갱신
+  renderStats();
 }
 
 // ============================================
